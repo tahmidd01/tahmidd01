@@ -320,18 +320,33 @@ flowchart LR
 ## 📊 GitHub Analytics
 
 <p align="center">
-  <img height="175" src="https://github-readme-stats.vercel.app/api?username=tahmidd01&show_icons=true&hide_border=true&bg_color=0D1117&title_color=DEC88E&text_color=D8D2C5&icon_color=B99758&ring_color=B99758" alt="Tahmid's GitHub stats" />
-  <img height="175" src="https://github-readme-streak-stats.herokuapp.com/?user=tahmidd01&hide_border=true&background=0D1117&ring=DEC88E&fire=B99758&currStreakLabel=DEC88E&sideLabels=D8D2C5&dates=6F7783&sideNums=EEE9DD&currStreakNum=EEE9DD" alt="Tahmid's GitHub streak" />
+  <img
+    height="175"
+    src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
+    alt="Tahmid's GitHub stats"
+  />
+  <img
+    height="175"
+    src="https://streak-stats.demolab.com?user=tahmidd01&hide_border=true&background=0D1117&ring=DEC88E&fire=B99758&currStreakLabel=DEC88E&sideLabels=D8D2C5&dates=6F7783&sideNums=EEE9DD&currStreakNum=EEE9DD"
+    alt="Tahmid's GitHub streak"
+  />
 </p>
 
 <p align="center">
-  <img height="190" src="https://github-readme-stats.vercel.app/api/top-langs/?username=tahmidd01&layout=compact&langs_count=10&hide_border=true&bg_color=0D1117&title_color=DEC88E&text_color=D8D2C5" alt="Tahmid's top public repository languages" />
+  <img
+    height="190"
+    src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
+    alt="Tahmid's top public repository languages"
+  />
 </p>
 
 <p align="center">
-  <img width="96%" src="https://github-readme-activity-graph.vercel.app/graph?username=tahmidd01&bg_color=0D1117&color=D8D2C5&line=B99758&point=DEC88E&area=true&hide_border=true" alt="Tahmid's GitHub activity graph" />
+  <img
+    width="96%"
+    src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
+    alt="Tahmid's GitHub contribution activity"
+  />
 </p>
-
 ## 🤝 Connection Hub
 
 <p align="center">
