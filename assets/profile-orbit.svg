@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">Tahmid Ahmed Talukder — systems and AI</title>
+  <desc id="desc">Animated dark 3D-inspired systems banner with rotating wireframe rings, nodes, and engineering labels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090c11"/>
+      <stop offset="0.52" stop-color="#0e1218"/>
+      <stop offset="1" stop-color="#141922"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="72%" cy="50%" r="48%">
+      <stop offset="0" stop-color="#b99758" stop-opacity=".20"/>
+      <stop offset=".42" stop-color="#b99758" stop-opacity=".055"/>
+      <stop offset="1" stop-color="#b99758" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#70552b"/>
+      <stop offset=".5" stop-color="#dec88e"/>
+      <stop offset="1" stop-color="#b99758"/>
+    </linearGradient>
+    <filter id="soft">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="nodeGlow" x="-300%" y="-300%" width="600%" height="600%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M 42 0 L 0 0 0 42" fill="none" stroke="#ffffff" stroke-opacity=".035" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="340" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="340" rx="24" fill="url(#grid)"/>
+  <rect width="1200" height="340" rx="24" fill="url(#glow)"/>
+
+  <g opacity=".9">
+    <circle cx="865" cy="170" r="124" fill="none" stroke="#b99758" stroke-opacity=".08"/>
+    <circle cx="865" cy="170" r="92" fill="none" stroke="#dec88e" stroke-opacity=".08"/>
+    <circle cx="865" cy="170" r="58" fill="none" stroke="#ffffff" stroke-opacity=".06"/>
+  </g>
+
+  <g transform="translate(865 170)" fill="none" stroke-linecap="round">
+    <g stroke="url(#gold)" stroke-opacity=".38">
+      <ellipse rx="172" ry="68" stroke-width="1.2">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse rx="150" ry="92" stroke-width="1" transform="rotate(58)">
+        <animateTransform attributeName="transform" type="rotate" from="58" to="418" dur="24s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse rx="148" ry="86" stroke-width="1" transform="rotate(-54)">
+        <animateTransform attributeName="transform" type="rotate" from="-54" to="306" dur="28s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse rx="116" ry="116" stroke-width=".8" stroke-opacity=".22">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="32s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+
+    <g stroke="#9ba2ad" stroke-opacity=".18" stroke-width=".8">
+      <path d="M-152 0 C-95 -48 95 -48 152 0 C95 48 -95 48 -152 0Z"/>
+      <path d="M0 -116 C50 -76 50 76 0 116 C-50 76 -50 -76 0 -116Z"/>
+      <path d="M-112 -62 L112 62 M-112 62 L112 -62 M-150 0 L150 0 M0 -112 L0 112"/>
+    </g>
+
+    <g stroke="#b99758" stroke-opacity=".32" stroke-width=".75">
+      <path d="M-125 -35 L-48 -82 L24 -45 L96 -74 L138 4 L62 64 L-8 86 L-82 52 Z"/>
+      <path d="M-48 -82 L-8 86 M24 -45 L62 64 M-125 -35 L96 -74 M-82 52 L138 4"/>
+    </g>
+
+    <g fill="#dec88e" filter="url(#nodeGlow)">
+      <circle cx="-125" cy="-35" r="3"><animate attributeName="r" values="2.2;4;2.2" dur="2.6s" repeatCount="indefinite"/></circle>
+      <circle cx="-48" cy="-82" r="2.5"><animate attributeName="opacity" values=".45;1;.45" dur="2.1s" repeatCount="indefinite"/></circle>
+      <circle cx="24" cy="-45" r="3.2"><animate attributeName="r" values="2.4;4.1;2.4" dur="3.1s" repeatCount="indefinite"/></circle>
+      <circle cx="96" cy="-74" r="2.6"><animate attributeName="opacity" values=".35;1;.35" dur="2.9s" repeatCount="indefinite"/></circle>
+      <circle cx="138" cy="4" r="3"><animate attributeName="r" values="2.2;4;2.2" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle cx="62" cy="64" r="2.7"><animate attributeName="opacity" values=".45;1;.45" dur="3.4s" repeatCount="indefinite"/></circle>
+      <circle cx="-8" cy="86" r="3"><animate attributeName="r" values="2.2;4;2.2" dur="2.8s" repeatCount="indefinite"/></circle>
+      <circle cx="-82" cy="52" r="2.6"><animate attributeName="opacity" values=".35;1;.35" dur="2.2s" repeatCount="indefinite"/></circle>
+    </g>
+
+    <g fill="#b99758" filter="url(#nodeGlow)">
+      <circle r="4">
+        <animateMotion dur="9s" repeatCount="indefinite" path="M-172,0 A172,68 0 1,1 172,0 A172,68 0 1,1 -172,0"/>
+      </circle>
+      <circle r="3.2">
+        <animateMotion dur="13s" repeatCount="indefinite" path="M0,-116 A116,116 0 1,1 0,116 A116,116 0 1,1 0,-116"/>
+      </circle>
+    </g>
+  </g>
+
+  <g font-family="IBM Plex Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="72" y="98" fill="#b99758" font-size="12" letter-spacing="4">TAHMID // ENGINEERING SYSTEMS</text>
+    <text x="70" y="154" fill="#eee9dd" font-size="40" font-weight="700" letter-spacing="-1">AI • SOFTWARE • RESEARCH</text>
+    <text x="72" y="191" fill="#9ba2ad" font-size="16">Explainable intelligence. Reproducible engineering. Human-centered products.</text>
+
+    <g transform="translate(72 236)" font-size="11" letter-spacing="1.5">
+      <rect x="0" y="0" width="142" height="31" rx="6" fill="#b99758" fill-opacity=".09" stroke="#b99758" stroke-opacity=".25"/>
+      <text x="18" y="20" fill="#dec88e">MULTIMODAL ML</text>
+      <rect x="157" y="0" width="122" height="31" rx="6" fill="#b99758" fill-opacity=".07" stroke="#b99758" stroke-opacity=".22"/>
+      <text x="175" y="20" fill="#d8d2c5">API SYSTEMS</text>
+      <rect x="294" y="0" width="125" height="31" rx="6" fill="#b99758" fill-opacity=".07" stroke="#b99758" stroke-opacity=".22"/>
+      <text x="311" y="20" fill="#d8d2c5">GREEN AI</text>
+      <rect x="434" y="0" width="145" height="31" rx="6" fill="#b99758" fill-opacity=".07" stroke="#b99758" stroke-opacity=".22"/>
+      <text x="451" y="20" fill="#d8d2c5">BIOINFORMATICS</text>
+    </g>
+  </g>
+
+  <g opacity=".8">
+    <circle cx="1118" cy="66" r="2" fill="#dec88e">
+      <animate attributeName="opacity" values=".25;1;.25" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1078" cy="286" r="1.6" fill="#b99758">
+      <animate attributeName="opacity" values=".2;.9;.2" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="592" cy="60" r="1.4" fill="#d8d2c5">
+      <animate attributeName="opacity" values=".1;.6;.1" dur="4.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <rect x=".5" y=".5" width="1199" height="339" rx="23.5" fill="none" stroke="#ffffff" stroke-opacity=".07"/>
+</svg>
