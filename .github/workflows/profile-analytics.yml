@@ -1,0 +1,354 @@
+name: Refresh Profile Analytics
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 0 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/profile-analytics.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout profile repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Generate local GitHub analytics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_USER: tahmidd01
+        run: |
+          python - <<'PY'
+          import os
+          import json
+          import html
+          import urllib.request
+          from collections import Counter
+          from datetime import datetime, timedelta, timezone
+
+          TOKEN = os.environ["GH_TOKEN"]
+          USER = os.environ["GH_USER"]
+
+          def api(url, payload=None):
+              headers = {
+                  "Authorization": f"Bearer {TOKEN}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+                  "User-Agent": "tahmidd01-profile-analytics"
+              }
+
+              if payload is None:
+                  req = urllib.request.Request(url, headers=headers)
+              else:
+                  headers["Content-Type"] = "application/json"
+                  req = urllib.request.Request(
+                      url,
+                      data=json.dumps(payload).encode("utf-8"),
+                      headers=headers,
+                      method="POST"
+                  )
+
+              with urllib.request.urlopen(req) as response:
+                  return json.load(response)
+
+          profile = api(f"https://api.github.com/users/{USER}")
+
+          repos = api(
+              f"https://api.github.com/users/{USER}/repos"
+              "?per_page=100&type=owner&sort=updated"
+          )
+
+          repos = [
+              repo for repo in repos
+              if not repo.get("fork") and not repo.get("archived")
+          ]
+
+          public_repos = profile.get("public_repos", len(repos))
+
+          language_counts = Counter(
+              repo["language"]
+              for repo in repos
+              if repo.get("language")
+          )
+
+          top_languages = language_counts.most_common(5)
+
+          now = datetime.now(timezone.utc)
+          start = now - timedelta(days=364)
+
+          query = """
+          query($login: String!, $from: DateTime!, $to: DateTime!) {
+            user(login: $login) {
+              contributionsCollection(from: $from, to: $to) {
+                contributionCalendar {
+                  totalContributions
+                  weeks {
+                    contributionDays {
+                      date
+                      contributionCount
+                    }
+                  }
+                }
+              }
+            }
+          }
+          """
+
+          graphql = api(
+              "https://api.github.com/graphql",
+              {
+                  "query": query,
+                  "variables": {
+                      "login": USER,
+                      "from": start.isoformat(),
+                      "to": now.isoformat()
+                  }
+              }
+          )
+
+          calendar = (
+              graphql["data"]["user"]["contributionsCollection"]
+              ["contributionCalendar"]
+          )
+
+          contributions = calendar["totalContributions"]
+
+          days = []
+
+          for week in calendar["weeks"]:
+              for day in week["contributionDays"]:
+                  days.append(
+                      (
+                          day["date"],
+                          int(day["contributionCount"])
+                      )
+                  )
+
+          days.sort(key=lambda item: item[0])
+
+          counts = [count for _, count in days]
+
+          longest = 0
+          running = 0
+
+          for count in counts:
+              if count > 0:
+                  running += 1
+                  longest = max(longest, running)
+              else:
+                  running = 0
+
+          current = 0
+
+          if counts:
+              i = len(counts) - 1
+
+              # Today's streak can remain active even if today's
+              # contribution count is still zero.
+              if counts[i] == 0:
+                  i -= 1
+
+              while i >= 0 and counts[i] > 0:
+                  current += 1
+                  i -= 1
+
+          total_language_repos = sum(count for _, count in top_languages) or 1
+
+          colors = [
+              "#B99758",
+              "#DEC88E",
+              "#70552B",
+              "#9BA2AD",
+              "#D8D2C5"
+          ]
+
+          width = 1040
+          height = 350
+
+          stats = [
+              ("PUBLIC REPOSITORIES", str(public_repos)),
+              ("CONTRIBUTIONS · 365D", str(contributions)),
+              ("CURRENT STREAK", f"{current} days"),
+              ("LONGEST STREAK", f"{longest} days")
+          ]
+
+          svg = []
+
+          svg.append(
+              f'''<svg xmlns="http://www.w3.org/2000/svg"
+              width="{width}"
+              height="{height}"
+              viewBox="0 0 {width} {height}"
+              role="img"
+              aria-label="Tahmid Ahmed Talukder GitHub analytics">'''
+          )
+
+          svg.append("""
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0D1117"/>
+              <stop offset="100%" stop-color="#11161E"/>
+            </linearGradient>
+
+            <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#70552B"/>
+              <stop offset="50%" stop-color="#DEC88E"/>
+              <stop offset="100%" stop-color="#B99758"/>
+            </linearGradient>
+          </defs>
+          """)
+
+          svg.append(
+              '<rect x="1" y="1" width="1038" height="348" rx="18" '
+              'fill="url(#bg)" stroke="#30363D" stroke-width="2"/>'
+          )
+
+          svg.append(
+              '<rect x="32" y="32" width="4" height="29" rx="2" '
+              'fill="url(#gold)"/>'
+          )
+
+          svg.append(
+              '<text x="52" y="51" fill="#EEE9DD" font-size="20" '
+              'font-weight="700" '
+              'font-family="Segoe UI,Arial,sans-serif">'
+              'GitHub Engineering Snapshot</text>'
+          )
+
+          svg.append(
+              '<text x="52" y="70" fill="#6F7783" font-size="11" '
+              'font-family="Segoe UI,Arial,sans-serif">'
+              'Generated directly from the GitHub API · refreshed daily'
+              '</text>'
+          )
+
+          card_width = 222
+          card_gap = 22
+          start_x = 32
+          card_y = 96
+
+          for index, (label, value) in enumerate(stats):
+              x = start_x + index * (card_width + card_gap)
+
+              svg.append(
+                  f'<rect x="{x}" y="{card_y}" width="{card_width}" '
+                  'height="102" rx="12" fill="#0B1016" '
+                  'stroke="#30363D"/>'
+              )
+
+              svg.append(
+                  f'<text x="{x + 18}" y="{card_y + 31}" '
+                  'fill="#9BA2AD" font-size="10" '
+                  'font-weight="600" letter-spacing="1.3" '
+                  'font-family="Segoe UI,Arial,sans-serif">'
+                  f'{html.escape(label)}</text>'
+              )
+
+              svg.append(
+                  f'<text x="{x + 18}" y="{card_y + 72}" '
+                  'fill="#DEC88E" font-size="28" '
+                  'font-weight="700" '
+                  'font-family="Segoe UI,Arial,sans-serif">'
+                  f'{html.escape(value)}</text>'
+              )
+
+          svg.append(
+              '<text x="34" y="234" fill="#EEE9DD" font-size="14" '
+              'font-weight="600" '
+              'font-family="Segoe UI,Arial,sans-serif">'
+              'Primary Languages Across Public Repositories'
+              '</text>'
+          )
+
+          bar_x = 34
+          bar_y = 251
+          bar_width = 972
+          bar_height = 13
+
+          used = 0
+
+          for index, (language, count) in enumerate(top_languages):
+              if index == len(top_languages) - 1:
+                  segment = bar_width - used
+              else:
+                  segment = round(
+                      bar_width * count / total_language_repos
+                  )
+
+              svg.append(
+                  f'<rect x="{bar_x + used}" y="{bar_y}" '
+                  f'width="{max(segment, 1)}" height="{bar_height}" '
+                  f'fill="{colors[index]}" '
+                  f'rx="{6 if index == 0 else 0}"/>'
+              )
+
+              used += segment
+
+          legend_x = 34
+          legend_y = 297
+
+          for index, (language, count) in enumerate(top_languages):
+              x = legend_x + index * 192
+
+              svg.append(
+                  f'<rect x="{x}" y="{legend_y - 10}" '
+                  'width="10" height="10" rx="2" '
+                  f'fill="{colors[index]}"/>'
+              )
+
+              svg.append(
+                  f'<text x="{x + 17}" y="{legend_y}" '
+                  'fill="#D8D2C5" font-size="11" '
+                  'font-family="Segoe UI,Arial,sans-serif">'
+                  f'{html.escape(language)} · {count}</text>'
+              )
+
+          updated = now.strftime("%Y-%m-%d UTC")
+
+          svg.append(
+              '<text x="1005" y="329" text-anchor="end" '
+              'fill="#6F7783" font-size="9" '
+              'font-family="Segoe UI,Arial,sans-serif">'
+              f'Updated {updated}</text>'
+          )
+
+          svg.append("</svg>")
+
+          os.makedirs("assets", exist_ok=True)
+
+          with open(
+              "assets/github-analytics.svg",
+              "w",
+              encoding="utf-8"
+          ) as file:
+              file.write("\n".join(svg))
+
+          print("Generated assets/github-analytics.svg")
+          PY
+
+      - name: Commit refreshed analytics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add assets/github-analytics.svg
+
+          if git diff --cached --quiet; then
+            echo "Analytics already up to date."
+          else
+            git commit -m "chore: refresh profile analytics"
+            git push
+          fi
