@@ -321,32 +321,13 @@ flowchart LR
 
 <p align="center">
   <img
-    height="175"
-    src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
-    alt="Tahmid's GitHub stats"
-  />
-  <img
-    height="175"
-    src="https://streak-stats.demolab.com?user=tahmidd01&hide_border=true&background=0D1117&ring=DEC88E&fire=B99758&currStreakLabel=DEC88E&sideLabels=D8D2C5&dates=6F7783&sideNums=EEE9DD&currStreakNum=EEE9DD"
-    alt="Tahmid's GitHub streak"
-  />
-</p>
-
-<p align="center">
-  <img
-    height="190"
-    src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
-    alt="Tahmid's top public repository languages"
-  />
-</p>
-
-<p align="center">
-  <img
+    src="./assets/github-analytics.svg"
     width="96%"
-    src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=tahmidd01&theme=github_dark&title_color=DEC88E&text_color=D8D2C5&bg_color=0D1117&border_color=0D1117&icon_color=B99758&chart_color=B99758&animation=fade"
-    alt="Tahmid's GitHub contribution activity"
+    alt="Tahmid Ahmed Talukder GitHub analytics"
   />
 </p>
+
+---
 ## 🤝 Connection Hub
 
 <p align="center">
